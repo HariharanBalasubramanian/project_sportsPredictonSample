@@ -1,0 +1,342 @@
+def team_choose():
+    print("\t\t\tSelect The Team\n\t\t\t1.Chennai Super Kings(CSK)\n\t\t\t2.Mumbai Indians(MI)\n\t\t\t3.Royal Challengers Bangalore(RCB)\n\t\t\t4.Delhi Capitals\n\n")
+    team=input("\t\tEnter the Team(short-form) :")
+    return team
+
+def calculate_percentage_bow(l,b):
+    print("\n\t\tEnter the Bowler",end=" ")
+    print(b,end=" ")
+    print("wicket(s) :",end=" ")
+    wc=int(input())
+    if wc>5:
+        x=l["5&+"]
+    elif wc<5 and wc>=3:
+        x=l["3&+"]
+    elif wc<3 and wc>=1:
+        x=l["1&+"]
+    elif wc==0:
+        x=l["no"]
+    else:
+        print("Please,Enter the Valid Wicket")
+        calculate_percentage_bow(l,b)
+    return x
+
+def calculate_percentage_bat(l,b):
+    print("\n\t\tEnter the Batsman",end=" ")
+    print(b,end=" ")
+    print("score :",end=" ")
+    sc=int(input())
+    if sc>=100:
+        x=l["100+"]
+    elif sc<100 and sc>=80:
+        x=l["99-80"]
+    elif sc<80 and sc>=60:
+        x=l["79-60"]
+    elif sc<60 and sc>=50:
+        x=l["59-50"]
+    elif sc<50 and sc>=30:
+        x=l["49-30"]
+    elif sc<30 and sc>=0:
+        x=l["29-0"]
+    else:
+        print("Please,Enter the Valid Score")
+        calculate_percentage_bat(l,b)
+    return x
+
+def valid_input(t,f):
+    print("\n\t\t\tEnter Choices :")
+    print("\t\t\t Yes",t)
+    print("\t\t\t No",f)
+    o=input("\n\tDo you want to continue ?")
+    o=o.lower()
+    t=t.lower()
+    f=f.lower()
+    if o!=t and o!=f :
+        print("Please, Enter the valid input")
+        valid_input(t,f)
+    return o
+
+
+def bat_choice_player_list(pl11):
+    print("\n\t\t\tPlayer List")
+    i=1
+    for x in pl11:
+        print("\t\t\t",end=" ")
+        print(i,end=" ")
+        print(x,end="\n")
+        i=i+1
+    name=input("\t\tEnter the Player name (Note:Name List are Case Senstive):")
+    name=name.lower()
+    return name
+
+def bow_choice_player_list(team_list_play,pl11):
+    print("\n\t\t\tPlayer List")
+    i=1
+    for x in pl11:
+        if x in team_list_play:
+            print("\t\t\t",end=" ")
+            print(i,end=" ")
+            print(x,end="\n")
+            i=i+1
+    name=input("\t\tEnter the Player name (Note:Name List are Case Senstive):")
+    name=name.lower()
+    return name
+
+def player_list(mem,tm):
+    print("\n\t\tPlayers in",end=" ")
+    print(tm,end=" ")
+    print("team\n")
+    i=1
+    for x in mem:
+        print("\t\t\t",end=" ")
+        print(i,end=" ")
+        print(x,end="\n")
+        i=i+1
+    print("\n\t\t\tSelect the 11 Player in your",end=" ")
+    print(tm,end=" \n")
+    pl=[]
+    pl=playing11(mem,pl)
+    return pl
+    
+def playing11(mem,pl):
+    i=1
+    while i<=11:
+        s=input("\tEnter the Player Name (Note:Name List are Case Senstive):")
+        if s not in pl:
+            if s in mem:
+                pl.append(s)
+                i=i+1
+            else:
+                print("Please,Enter The Name Correctly")
+        else:
+            print("Don't Repeat the Players Name")
+    return pl
+
+def team_game(bat_member,bow_member,members,batsman_members,bolwer_members,c,plys):
+    count=0
+    li_pl_bt=[a]
+    li_pl_bw=[a]
+    per1=0
+    k=True
+    while k:
+        if c==1:
+            print("\n\t\t\tBatting Team")
+            bt=bat_choice_player_list(plys)
+            if bt not in li_pl_bt:
+               l=bat_member[bt]
+               per=calculate_percentage_bat(l,bt)
+               li_pl_bt.append(bt)
+               count=count+1
+               u=valid_input("1","0")
+               if u=="0":
+                   k=False
+        elif c==2:
+            print("\n\t\t\tBowling Team")
+            bw=bow_choice_player_list(bolwer_members,plys)
+            if bw not in li_pl_bw:
+                l=bow_member[bw]
+                per=calculate_percentage_bow(l,bw)
+                li_pl_bw.append(bw)
+                count=count+1
+                u=valid_input("1","0")
+                if u=="0":
+                   k=False
+        per1=per1+per
+    avg_per=per1/count
+    return avg_per
+    
+def last_pre(t1,t2,p1,p2):
+    p=(p1+p2)/2
+    l=100-p
+    print("\n\t\t\t",end=" ")
+    print(t1,end="\t")
+    print(t2,end="\n")
+    print("\n\t\t\t",end=" ")
+    print(p,end="\t")
+    print(l,end="\n")
+    
+a=0
+b=[]
+csk=0
+mi=0
+rcb=0
+dc=0
+lis_team=[]
+bo=True
+n=0
+while bo :
+    team=team_choose()
+    team=team.lower()
+    if team=="csk" and csk==0:
+        bat_member={
+            "ms dhoni":{"100+":90,"99-80":80,"79-60":70,"59-50":50,"49-30":40,"29-0":20},
+            "faf du plessis":{"100+":91,"99-80":80,"79-60":74,"59-50":55,"49-30":50,"29-0":30},
+            "m vijay":{"100+":87,"99-80":87,"79-60":78,"59-50":50,"49-30":42,"29-0":35},
+            "sam billings":{"100+":85,"99-80":79,"79-60":71,"59-50":64,"49-30":50,"29-0":40},
+            "shane watson":{"100+":96,"99-80":82,"79-60":79,"59-50":54,"49-30":40,"29-0":15},
+            "ambati rayudu":{"100+":93,"99-80":91,"79-60":82,"59-50":64,"49-30":61,"29-0":10},
+            "suresh raina":{"100+":93,"99-80":85,"79-60":79,"59-50":60,"49-30":40,"29-0":15},
+            "ravindra jadeja":{"100+":96,"99-80":90,"79-60":85,"59-50":77,"49-30":22,"29-0":10},
+            "dwayne bravo":{"100+":94,"99-80":91,"79-60":71,"59-50":45,"49-30":21,"29-0":13},
+            "mitchell santner":{"100+":94,"99-80":86,"79-60":85,"59-50":51,"49-30":45,"29-0":35},
+            "kedar jadhav":{"100+":96,"99-80":89,"79-60":75,"59-50":60,"49-30":54,"29-0":50},
+            "harbhajan singh":{"100+":96,"99-80":91,"79-60":78,"59-50":60,"49-30":26,"29-0":6},
+            "deepak chahar":{"100+":91,"99-80":90,"79-60":70,"59-50":60,"49-30":20,"29-0":10},
+            "km asif":{"100+":97,"99-80":93,"79-60":79,"59-50":69,"49-30":36,"29-0":6},
+            "karn sharma":{"100+":96,"99-80":93,"79-60":78,"59-50":56,"49-30":45,"29-0":1},
+            "david willey":{"100+":97,"99-80":91,"79-60":77,"59-50":67,"49-30":15,"29-0":1},
+            "lungi ngidi":{"100+":95,"99-80":90,"79-60":82,"59-50":47,"49-30":45,"29-0":1},
+            "imran tahir":{"100+":95,"99-80":95,"79-60":89,"59-50":76,"49-30":26,"29-0":1},
+            "shardul thakur":{"100+":92,"99-80":93,"79-60":71,"59-50":67,"49-30":45,"29-0":10},
+            "mohit sharma":{"100+":90,"99-80":89,"79-60":71,"59-50":56,"49-30":21,"29-0":1}
+            
+        }
+        bow_member={
+            "deepak chahar":{"5&+":80,"3&+":75,"1&+":50,"no":10},
+            "km asif":{"5&+":72,"3&+":70,"1&+":45,"no":25},
+            "karn sharma":{"5&+":90,"3&+":71,"1&+":35,"no":11},
+            "david willey":{"5&+":95,"3&+":85,"1&+":25,"no":9},
+            "lungi ngidi":{"5&+":95,"3&+":85,"1&+":31,"no":15},
+            "imran tahir":{"5&+":99,"3&+":75,"1&+":45,"no":10},
+            "shardul thakur":{"5&+":91,"3&+":79,"1&+":49,"no":41},
+            "mohit sharma":{"5&+":90,"3&+":76,"1&+":20,"no":21},
+            "harbhajan singh":{"5&+":89,"3&+":87,"1&+":51,"no":35},
+            "suresh raina":{"5&+":98,"3&+":94,"1&+":46,"no":45},
+            "ravindra jadeja":{"5&+":96,"3&+":93,"1&+":43,"no":41},
+            "dwayne bravo":{"5&+":99,"3&+":81,"1&+":50,"no":39},
+            "kedar jadhav":{"5&+":98,"3&+":89,"1&+":55,"no":60},
+            "mitchell santner":{"5&+":91,"3&+":75,"1&+":56,"no":41}
+        }
+    
+        members=[ "MS Dhoni", "Suresh Raina", "Deepak Chahar", "KM Asif", "Karn Sharma", "Faf du Plessis", "M Vijay", "Ravindra Jadeja", "Sam Billings", "Mitchell Santner", "David Willey", "Dwayne Bravo", "Shane Watson", "Lungi Ngidi", "Imran Tahir", "Kedar Jadhav", "Ambati Rayudu", "Harbhajan Singh", "Shardul Thakur","Mohit Sharma"]
+        batsman_members=["MS Dhoni", "Suresh Raina", "Faf du Plessis", "M Vijay", "Ravindra Jadeja", "Sam Billings", "Mitchell Santner", "Dwayne Bravo", "Shane Watson", "Kedar Jadhav", "Ambati Rayudu", "Harbhajan Singh"]
+        bolwer_members=[ "Deepak Chahar", "KM Asif", "Karn Sharma", "Ravindra Jadeja", "Mitchell Santner", "David Willey", "Dwayne Bravo", "Lungi Ngidi", "Imran Tahir", "Kedar Jadhav", "Harbhajan Singh", "Shardul Thakur","Mohit Sharma"]
+        n=n+1
+        ply=player_list(members,"CSK")
+        a=team_game(bat_member,bow_member,members,batsman_members,bolwer_members,n,ply)
+        lis_team.append("CSK")
+        b.append(a)
+        csk=1
+    elif team=="mi" and mi==0:
+        n=n+1
+        ply=player_list(members,"MI")
+        a=team_game(bat_member,bow_member,members,batsman_members,bolwer_members,n,ply)
+        lis_team.append("MI")
+        b.append(a)
+        mi=1
+    elif team=="rcb" and rcb==0:
+        bat_member={
+            "parthiv patel":{"100+":85,"99-80":75,"79-60":70,"59-50":50,"49-30":40,"29-0":20},
+            "virat kohli":{"100+":96,"99-80":85,"79-60":80,"59-50":65,"49-30":40,"29-0":30},
+            "shimron hetmyer":{"100+":90,"99-80":87,"79-60":78,"59-50":50,"49-30":42,"29-0":35},
+            "ab de villiers":{"100+":98,"99-80":80,"79-60":75,"59-50":66,"49-30":50,"29-0":40},
+            "d padikkal":{"100+":96,"99-80":82,"79-60":79,"59-50":54,"49-30":40,"29-0":15},
+            "himmat singh":{"100+":90,"99-80":85,"79-60":80,"59-50":60,"49-30":50,"29-0":40},
+            "h klaasen":{"100+":93,"99-80":85,"79-60":79,"59-50":60,"49-30":40,"29-0":15},
+            "moeen ali":{"100+":96,"99-80":90,"79-60":85,"59-50":77,"49-30":22,"29-0":10},
+            "colin de grandhomme":{"100+":80,"99-80":75,"79-60":71,"59-50":45,"49-30":21,"29-0":13},
+            "shivam dubey":{"100+":70,"99-80":75,"79-60":60,"59-50":65,"49-30":45,"29-0":35},
+            "a nath":{"100+":90,"99-80":81,"79-60":75,"59-50":60,"49-30":54,"29-0":50},
+            "p barman":{"100+":90,"99-80":85,"79-60":70,"59-50":60,"49-30":26,"29-0":6},
+            "milind kumar":{"100+":90,"99-80":85,"79-60":70,"59-50":60,"49-30":20,"29-0":10},
+            "gurkeerat singh":{"100+":97,"99-80":93,"79-60":79,"59-50":69,"49-30":36,"29-0":6},
+            "w sundar":{"100+":80,"99-80":75,"79-60":68,"59-50":56,"49-30":45,"29-0":1},
+            "pawan negi":{"100+":97,"99-80":91,"79-60":77,"59-50":67,"49-30":15,"29-0":1},
+            "marcus stoinis":{"100+":95,"99-80":90,"79-60":82,"59-50":47,"49-30":45,"29-0":1},
+            "umesh yadav":{"100+":92,"99-80":95,"79-60":89,"59-50":76,"49-30":26,"29-0":1},
+            "navdeep saini":{"100+":97,"99-80":93,"79-60":71,"59-50":67,"49-30":45,"29-0":10},
+            "yuzvendra chahal":{"100+":90,"99-80":89,"79-60":71,"59-50":56,"49-30":21,"29-0":1},
+            "mohammed siraj":{"100+":90,"99-80":89,"79-60":71,"59-50":56,"49-30":21,"29-0":1},
+            "n coulter-nile":{"100+":90,"99-80":89,"79-60":71,"59-50":56,"49-30":21,"29-0":1},	
+            "kulwant khejroliya":{"100+":90,"99-80":89,"79-60":71,"59-50":56,"49-30":21,"29-0":1},
+           "tim southee":{"100+":90,"99-80":89,"79-60":71,"59-50":56,"49-30":21,"29-0":1}               
+        }
+        bow_member={
+            "tim southee":{"5&+":95,"3&+":75,"1&+":50,"no":10},
+           "kulwant khejroliya":{"5&+":72,"3&+":70,"1&+":45,"no":25},
+           "n coulter-nile":{"5&+":80,"3&+":71,"1&+":35,"no":11},
+            "mohammed siraj":{"5&+":95,"3&+":85,"1&+":25,"no":9},
+           "yuzvendra chahal":{"5&+":95,"3&+":85,"1&+":31,"no":15},
+            "navdeep saini":{"5&+":80,"3&+":75,"1&+":45,"no":10},
+            "umesh yadav":{"5&+":91,"3&+":79,"1&+":49,"no":41},
+            "marcus stoinis":{"5&+":90,"3&+":76,"1&+":20,"no":21},
+            "pawan negi":{"5&+":89,"3&+":87,"1&+":51,"no":35},
+            "w sundar":{"5&+":98,"3&+":94,"1&+":46,"no":45},
+           "gurkeerat singh":{"5&+":96,"3&+":93,"1&+":43,"no":41},
+            "p barman":{"5&+":99,"3&+":81,"1&+":50,"no":39},
+            "a nath":{"5&+":92,"3&+":89,"1&+":55,"no":60},
+            "shivam dubey":{"5&+":91,"3&+":75,"1&+":56,"no":41},
+            "colin de grandhomme":{"5&+":91,"3&+":75,"1&+":56,"no":41},
+            "moeen ali":{"5&+":91,"3&+":75,"1&+":56,"no":41}
+        }
+    
+        members=[ "Parthiv Patel" ,"Virat Kohli","Shimron Hetmyer","AB de Villiers","D Padikkal","Himmat Singh","H Klaasen","Moeen Ali","Colin de Grandhomme","Shivam Dubey","A Nath","P Barman","Milind Kumar","Gurkeerat Singh","W Sundar","Pawan Negi","Marcus Stoinis","Umesh Yadav","Navdeep Saini","Yuzvendra Chahal","Mohammed Siraj","N Coulter-Nile","Kulwant Khejroliya","Tim Southee"]
+        batsman_members=["Parthiv Patel" ,"Virat Kohli","Shimron Hetmyer","AB de Villiers","D Padikkal","Himmat Singh","H Klaasen","Moeen Ali","Colin de Grandhomme","Shivam Dubey","A Nath","P Barman","Milind Kumar","Gurkeerat Singh","W Sundar","Pawan Negi","Marcus Stoinis"]
+        bolwer_members=["Moeen Ali","Colin de Grandhomme","Shivam Dubey","A Nath","P Barman","Milind Kumar","Gurkeerat Singh","W Sundar","Pawan Negi","Marcus Stoinis","Umesh Yadav","Navdeep Saini","Yuzvendra Chahal","Mohammed Siraj","N Coulter-Nile","Kulwant Khejroliya","Tim Southee"]
+        n=n+1
+        ply=player_list(members,"RCB")
+        a=team_game(bat_member,bow_member,members,batsman_members,bolwer_members,n,ply)
+        lis_team.append("RCB")
+        b.append(a)
+        rcb=1
+    elif team=="dc" and dc==0:
+        bat_member={
+            "colin ingram":{"100+":80,"99-80":79,"79-60":60,"59-50":40,"49-30":30,"29-0":10},
+            "manjot karla":{"100+":79,"99-80":80,"79-60":78,"59-50":89,"49-30":90,"29-0":60},
+            "prithvi shaw":{"100+":45,"99-80":87,"79-60":98,"59-50":67,"49-30":98,"29-0":89},
+            "sherfane rutherford":{"100+":90,"99-80":78,"79-60":89,"59-50":90,"49-30":78,"29-0":89},
+            "shikhar dhawan":{"100+":89,"99-80":89,"79-60":78,"59-50":56,"49-30":67,"29-0":89},
+            "shreyas iyer":{"100+":45,"99-80":56,"79-60":78,"59-50":89,"49-30":89,"29-0":56},
+            "amit mishra":{"100+":67,"99-80":56,"79-60":87,"59-50":87,"49-30":97,"29-0":90},
+            "avesh khan":{"100+":76,"99-80":55,"79-60":55,"59-50":44,"49-30":55,"29-0":76},
+            "bandaru ayyappa":{"100+":65,"99-80":78,"79-60":71,"59-50":45,"49-30":21,"29-0":13},
+            "harshal patel":{"100+":91,"99-80":56,"79-60":34,"59-50":34,"49-30":35,"29-0":78},
+            "ishant sharma":{"100+":94,"99-80":65,"79-60":85,"59-50":60,"49-30":44,"29-0":30},
+            "kagiso rabada":{"100+":78,"99-80":77,"79-60":89,"59-50":76,"49-30":35,"29-0":7},
+            "nathu singh":{"100+":91,"99-80":90,"79-60":70,"59-50":60,"49-30":20,"29-0":10},
+            "sandeep lamichhan":{"100+":87,"99-80":93,"79-60":79,"59-50":69,"49-30":36,"29-0":6},
+            "trent boult":{"100+":96,"99-80":90,"79-60":78,"59-50":56,"49-30":45,"29-0":1},
+            "axar patel":{"100+":97,"99-80":98,"79-60":77,"59-50":67,"49-30":15,"29-0":1},
+            "chris morris":{"100+":95,"99-80":98,"79-60":82,"59-50":47,"49-30":45,"29-0":1},
+            "colin munro":{"100+":91,"99-80":92,"79-60":89,"59-50":76,"49-30":26,"29-0":1},
+            "hanuma vihari":{"100+":92,"99-80":91,"79-60":71,"59-50":67,"49-30":45,"29-0":10},
+            "jalaj saxena":{"100+":45,"99-80":90,"79-60":74,"59-50":5,"49-30":3,"29-0":1}
+            
+        }
+        bow_member={
+            "amit mishra":{"5&+":98,"3&+":73,"1&+":40,"no":17},
+            "avesh khan":{"5&+":87,"3&+":78,"1&+":44,"no":22},
+            "bandaru ayyappa":{"5&+":90,"3&+":78,"1&+":40,"no":7},
+            "harshal patel":{"5&+":92,"3&+":83,"1&+":35,"no":10},
+            "ishant sharma":{"5&+":93,"3&+":88,"1&+":45,"no":18},
+            "kagiso rabada":{"5&+":92,"3&+":67,"1&+":47,"no":11},
+            "nathu singh":{"5&+":91,"3&+":78,"1&+":50,"no":22},
+            "sandeep lamichhan":{"5&+":91,"3&+":67,"1&+":10,"no":32},
+            "trent boult":{"5&+":89,"3&+":83,"1&+":55,"no":14},
+            "axar patel":{"5&+":96,"3&+":96,"1&+":43,"no":23},
+            "chris morris":{"5&+":96,"3&+":92,"1&+":33,"no":32},
+            "colin munro":{"5&+":97,"3&+":81,"1&+":60,"no":60},
+            "hanuma vihari":{"5&+":96,"3&+":82,"1&+":35,"no":40},
+            "jalaj saxena":{"5&+":93,"3&+":74,"1&+":45,"no":20}
+        }
+    
+        members=[ "Colin Ingram", "Manjot Kalra", "Prithvi Shaw", "Sherfane Rutherford", "Shikhar Dhawan", "Shreyas Iyer", "Amit Mishra", "Avesh Khan", "Bandaru Ayyappa", "Harshal Patel", "Ishant Sharma", "Kagiso Rabada", "Nathu Singh", "Sandeep Lamichhan", "Trent Boult", "Axar Patel", "Chris Morris", "Colin Munro", "Hanuma Vihari","Jalaj Saxena"]
+        batsman_members=["Colin Ingram", "Manjot Kalra", "Prithvi Shaw", "Sherfane Rutherford", "Shikhar Dhawan", "Shreyas Iyer", "Axar Patel", "Chris Morris", "Colin Munro", "Hanuma Vihari","Jalaj Saxena"]
+        bolwer_members=[ "Amit Mishra", "Avesh Khan", "Bandaru Ayyappa", "Harshal Patel", "Ishant Sharma", "Kagiso Rabada", "Nathu Singh", "Sandeep Lamichhan", "Trent Boult", "Axar Patel", "Chris Morris", "Colin Munro", "Hanuma Vihari","Jalaj Saxena"]
+        n=n+1
+        ply=player_list(members,"DC")
+        a=team_game(bat_member,bow_member,members,batsman_members,bolwer_members,n,ply)
+        lis_team.append("DC")
+        b.append(a)
+        dc=1
+    else:
+        print("Please,Enter the Correct Team/Don't Repeat The Team Name")
+        team_choose()
+    if n==2:
+        bo=False
+        
+print("\n\t\t\t Prediction Result")
+if b[0]>b[1]:
+    last_pre(lis_team[0],lis_team[1],b[0],b[1])
+else:
+    last_pre(lis_team[1],lis_team[0],b[1],b[0])
